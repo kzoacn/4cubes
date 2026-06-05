@@ -1,0 +1,44 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.98\linewidth,
+    height=0.58\linewidth,
+    ymode=log,
+    xmin=0,
+    xmax=10000000,
+    ymin=1,
+    ymax=1000000,
+    xlabel={$n$},
+    ylabel={$d(n)$},
+    scaled x ticks=false,
+    xtick={0,2000000,4000000,6000000,8000000,10000000},
+    xticklabels={$0$,$2\cdot10^6$,$4\cdot10^6$,$6\cdot10^6$,$8\cdot10^6$,$10^7$},
+    grid=both,
+    major grid style={black!12},
+    minor grid style={black!6},
+    tick label style={font=\small},
+    label style={font=\small},
+    legend columns=3,
+    legend style={draw=none, fill=white, font=\small, at={(0.5,1.02)}, anchor=south},
+    legend cell align=left,
+]
+\addplot[very thick, blue!70!black] table[x=n,y=median] {figures/data/d_quantiles.dat};
+\addlegendentry{median}
+
+\addplot[thick, teal!70!black] table[x=n,y=p90] {figures/data/d_quantiles.dat};
+\addlegendentry{$90\%$}
+
+\addplot[thick, orange!85!black] table[x=n,y=p99] {figures/data/d_quantiles.dat};
+\addlegendentry{$99\%$}
+
+\addplot[thick, red!70!black] table[x=n,y=p999] {figures/data/d_quantiles.dat};
+\addlegendentry{$99.9\%$}
+
+\addplot[thin, black!60] table[x=n,y=max] {figures/data/d_quantiles.dat};
+\addlegendentry{bin max}
+\end{axis}
+\end{tikzpicture}
+\caption{Binned quantiles of the reference search parameter $d(n)$ for $1\leq n\leq 10^7$.  Each bin contains $10^4$ consecutive values of $n$.}
+\label{fig:d_quantiles}
+\end{figure}

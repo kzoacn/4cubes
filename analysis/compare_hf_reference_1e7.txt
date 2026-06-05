@@ -1,0 +1,39 @@
+Comparison: HuggingFace certificate vs scripts/four_cubes_reference.py
+Date: 2026-06-03
+
+Reference solver rule:
+For each successful d, enumerate Sage/PARI qfbsolve representatives
+returned with _flag=3, keep the parity-compatible candidates, and choose
+the resulting four-cube tuple with minimal H=max_i |x_i|. Ties are broken
+lexicographically.
+
+Source data:
+HuggingFace dataset kzoacn/sum4cubes.
+cubes-00.txt covers n=0..9999999.
+cubes-01.txt first row was used to include n=10000000.
+
+Range:
+1 <= n <= 10000000.
+
+Results:
+processed: 10000000
+HuggingFace invalid identities: 0
+reference missing: 0
+reference invalid identities: 0
+exact tuple matches: 3155507
+tuple differs but d matches: 6569229
+d differs: 275264
+reference H larger than HuggingFace H: 77443
+reference H smaller than HuggingFace H: 4414650
+reference H equal to HuggingFace H: 5507907
+
+Main run:
+cubes-00.txt, n=1..9999999
+elapsed_seconds: 2444.728998
+rate_per_second: 4090.432521
+wall_seconds: 2447.58
+
+Supplemental n=10000000:
+HuggingFace: (13569, -13568, -2601, 2574), d=27, H=13569
+Reference: (-3468, 3469, 554, -581), d=27, H=3469
+Both identities verified exactly.

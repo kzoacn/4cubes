@@ -1,0 +1,48 @@
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.98\linewidth,
+    height=0.58\linewidth,
+    ymode=log,
+    xmin=0,
+    xmax=10000000,
+    ymin=1,
+    ymax=1000000,
+    xlabel={$n$},
+    ylabel={$d(n)$},
+    scaled x ticks=false,
+    xtick={0,2000000,4000000,6000000,8000000,10000000},
+    xticklabels={$0$,$2\cdot10^6$,$4\cdot10^6$,$6\cdot10^6$,$8\cdot10^6$,$10^7$},
+    grid=both,
+    major grid style={black!12},
+    minor grid style={black!6},
+    tick label style={font=\small},
+    label style={font=\small},
+    legend columns=2,
+    legend style={draw=none, fill=none, font=\small, at={(0.5,1.02)}, anchor=south},
+    legend cell align=left,
+]
+\addplot[
+    only marks,
+    mark=*,
+    mark size=0.35pt,
+    draw=none,
+    fill=black,
+    fill opacity=0.16,
+] table[x=n,y=d] {figures/data/d_sample.dat};
+\addlegendentry{sample}
+
+\addplot[
+    only marks,
+    mark=*,
+    mark size=1.7pt,
+    draw=red!70!black,
+    fill=red!70!black,
+] table[x=n,y=d] {figures/data/d_outliers.dat};
+\addlegendentry{top ten}
+\end{axis}
+\end{tikzpicture}
+\caption{Reference search parameters $d(n)$ for $1\leq n\leq 10^7$ on a logarithmic scale.  The gray points are the deterministic sample $n\equiv 0\pmod {5000}$, and the red points mark the ten largest observed values of $d(n)$ in this range.}
+\label{fig:points}
+\end{figure}

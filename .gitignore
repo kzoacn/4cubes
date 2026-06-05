@@ -1,0 +1,22 @@
+generated/
+
+# LaTeX intermediates
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+
+# Python/cache files
+__pycache__/
+*.py[cod]
+
+# Local OS/editor files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,179 @@
+\newcolumntype{N}{>{\raggedright\arraybackslash\ttfamily\footnotesize}p{0.78\textwidth}}
+
+For a representation produced by the reference implementation in
+Algorithm~\ref{alg:main}, we write $d(n)$ for the first search parameter
+found by the algorithm and
+\[
+        H(n)=\max_{1\leq i\leq 4}|x_i|
+\]
+for the height of the corresponding minimal-height representative at that
+search parameter.  The first table below lists small examples explicitly.
+The following two tables select outlying instances from the regenerated
+certificate data for the full verification range $1\leq n\leq 10^9$.
+The column $\ell(H(n))$ denotes the number of decimal digits of $H(n)$.
+
+\begin{longtable}{c c c}
+\caption{Sum of four cubes representations for $1\leq n \leq 100$} \label{tab:solutions}\\
+\toprule
+$n$ & $x_1^3 + x_2^3 + x_3^3 + x_4^3$ & $d$ \\
+\midrule
+\endfirsthead
+\toprule
+$n$ & $x_1^3 + x_2^3 + x_3^3 + x_4^3$ & $d$ \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{Continued on next page} \\
+\endfoot
+\bottomrule
+\endlastfoot
+\input{analysis/reference_1e7_first100.tex}
+\end{longtable}
+
+\begin{table}[H]
+\centering
+\caption{Largest recorded values of $d(n)$ for $1\leq n\leq 10^9$}
+\label{tab:largest_d_1e9}
+\begin{tabular}{c r r r r}
+\toprule
+Rank & $n$ & $d$ & $\ell(H)$ & $\log_{10}(H/n)$ \\
+\midrule
+1 & 936384844 & 5508491 & 66 & 56.516 \\
+2 & 630252220 & 5170439 & 17 & 7.476 \\
+3 & 172116347 & 3042818 & 26 & 17.569 \\
+4 & 720368492 & 2483135 & 23 & 14.040 \\
+5 & 62809898 & 2259611 & 18 & 9.591 \\
+6 & 424484014 & 1890905 & 41 & 31.940 \\
+7 & 984206885 & 1774796 & 27 & 17.274 \\
+8 & 233143708 & 1759577 & 16 & 6.785 \\
+9 & 200441272 & 1539353 & 33 & 24.389 \\
+10 & 699315232 & 1421681 & 14 & 4.933 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Largest recorded values of $H(n)$ for $1\leq n\leq 10^9$}
+\label{tab:largest_height_1e9}
+\begin{tabular}{c r r r r}
+\toprule
+Rank & $n$ & $d$ & $\ell(H)$ & $\log_{10}(H/n)$ \\
+\midrule
+1 & 340984507 & 1248734 & 131 & 122.036 \\
+2 & 936384844 & 5508491 & 66 & 56.516 \\
+3 & 139360442 & 473225 & 58 & 49.605 \\
+4 & 812091910 & 1387697 & 57 & 48.084 \\
+5 & 298597495 & 908216 & 51 & 41.866 \\
+6 & 243310568 & 676853 & 47 & 38.513 \\
+7 & 28875326 & 218663 & 44 & 36.337 \\
+8 & 424484014 & 1890905 & 41 & 31.940 \\
+9 & 584188196 & 94217 & 35 & 25.611 \\
+10 & 200441272 & 1539353 & 33 & 24.389 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Explicit representations for two outliers}
+
+The following two tables give the complete representations for the leading
+outliers in Tables~\ref{tab:largest_d_1e9} and
+\ref{tab:largest_height_1e9}.  In these tables, spaces in decimal
+expansions are only digit separators, inserted in blocks of four for
+readability.
+
+\begin{table}[H]
+\centering
+\caption{Explicit certificate representation for $n=936384844$, the largest recorded value of $d(n)$}
+\label{tab:rep_936384844}
+\begin{tabular}{c N}
+\toprule
+Variable & Value \\
+\midrule
+$x_1$ & 30 7230 6200 3619 8887 6003 3192 9948 7199 7824 7989 0641 1712 7246 2307 8629 5941 \\
+$x_2$ & -30 7230 6200 3619 8887 6003 3192 9948 7199 7824 7989 0641 1712 7246 2307 8629 5942 \\
+$x_3$ & 130 9025 7064 0549 0465 2247 7828 1922 0428 4025 4310 9694 6153 1423 2834 8471 \\
+$x_4$ & -130 9025 7064 0549 0465 2247 7828 1922 0428 4025 4310 9694 6153 1423 2283 9980 \\
+\bottomrule
+\end{tabular}
+\[
+\begin{aligned}
+        936384844 &= x_1^3+x_2^3+x_3^3+x_4^3,\\
+        d(936384844) &= 5508491,\qquad H(936384844)=|x_2|.
+\end{aligned}
+\]
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Explicit certificate representation for $n=340984507$, the largest recorded value of $H(n)$}
+\label{tab:rep_340984507}
+\begin{tabular}{c N}
+\toprule
+Variable & Value \\
+\midrule
+$x_1$ & 370 5739 4133 4654 4780 1216 2360 0386 9785 7350 5408 0417 7220 5119 4147 2288 7378 2670 5430 4572 5176 0745 4543 2018 9726 4367 8218 0837 8821 0789 8314 1962 2346 \\
+$x_2$ & -370 5739 4133 4654 4780 1216 2360 0386 9785 7350 5408 0417 7220 5119 4147 2288 7378 2670 5430 4572 5176 0745 4543 2018 9726 4367 8218 0837 8821 0789 8314 1962 2347 \\
+$x_3$ & -3316 1938 4003 7246 7141 7215 0547 4292 0031 4035 9034 0369 9705 9982 1979 2976 7723 6077 8586 5629 2076 3931 3899 4614 3197 6791 5676 7171 1428 1184 4392 6711 \\
+$x_4$ & 3316 1938 4003 7246 7141 7215 0547 4292 0031 4035 9034 0369 9705 9982 1979 2976 7723 6077 8586 5629 2076 3931 3899 4614 3197 6791 5676 7171 1428 1184 4517 5445 \\
+\bottomrule
+\end{tabular}
+\[
+\begin{aligned}
+        340984507 &= x_1^3+x_2^3+x_3^3+x_4^3,\\
+        d(340984507) &= 1248734,\qquad H(340984507)=|x_2|.
+\end{aligned}
+\]
+\end{table}
+
+\subsection{Decimal-prefix examples}
+
+The following two tables give additional examples obtained from decimal
+prefixes of \(\pi\) and \(e\).  The digit count includes the digit before the
+decimal point; the decimal point is then omitted.  Both selected prefixes
+satisfy \(n\equiv 4\pmod 9\).  The explicit representations are shown in
+Tables~\ref{tab:rep_pi_prefix} and~\ref{tab:rep_e_prefix}.
+
+\begin{table}[H]
+\centering
+\caption{Explicit representation for the 18-digit decimal prefix of \(\pi\)}
+\label{tab:rep_pi_prefix}
+\begin{tabular}{c@{\qquad}r}
+\toprule
+Variable & Value \\
+\midrule
+$x_1$ & 16411235899 \\
+$x_2$ & -16411235900 \\
+$x_3$ & 525952624 \\
+$x_4$ & -525951650 \\
+\bottomrule
+\end{tabular}
+\[
+\begin{aligned}
+        314159265358979323 &= x_1^3+x_2^3+x_3^3+x_4^3,\\
+        d(314159265358979323) &= 974,\qquad H(314159265358979323)=|x_2|.
+\end{aligned}
+\]
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Explicit representation for the 17-digit decimal prefix of \(e\)}
+\label{tab:rep_e_prefix}
+\begin{tabular}{c@{\qquad}r}
+\toprule
+Variable & Value \\
+\midrule
+$x_1$ & 6482848 \\
+$x_2$ & -6482849 \\
+$x_3$ & -19894238 \\
+$x_4$ & 19894261 \\
+\bottomrule
+\end{tabular}
+\[
+\begin{aligned}
+        27182818284590452 &= x_1^3+x_2^3+x_3^3+x_4^3,\\
+        d(27182818284590452) &= 23,\qquad H(27182818284590452)=|x_4|.
+\end{aligned}
+\]
+\end{table}
