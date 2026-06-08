@@ -12,8 +12,8 @@ import sys
 from sage.all import ZZ, BinaryQF, Mod, factor, is_square
 
 
-def local_admissible(n, d, M):
-    """Return whether the local square tests from Lemma 3.3 pass."""
+def passes_local_tests(n, d, M):
+    """Return whether the necessary square tests used in the search pass."""
     for p, a in factor(d):
         q = p**a
         if not Mod(M, q).is_square():
@@ -21,7 +21,7 @@ def local_admissible(n, d, M):
     return True
 
 
-def solve_pell_with_congruences(d, M):
+def solve_pell_with_parity(d, M):
     """Find Pell candidates satisfying the required parity conditions."""
     Q = BinaryQF([1, 0, -d])
     for u, v in Q.solve_integer(M, _flag=3):
@@ -67,12 +67,12 @@ def solve(n, limit=10**8, return_d=False):
             continue
         M = numerator // 3
 
-        if not local_admissible(n, d, M):
+        if not passes_local_tests(n, d, M):
             continue
 
         candidates = [
             quadruple_from_pell(d, u, v)
-            for u, v in solve_pell_with_congruences(d, M)
+            for u, v in solve_pell_with_parity(d, M)
         ]
         if not candidates:
             continue

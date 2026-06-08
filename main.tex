@@ -81,17 +81,12 @@
 We computationally verify the sum of four cubes problem for every positive
 integer $n \leq 10^9$, producing explicit integer representations
 $n=x_1^3+x_2^3+x_3^3+x_4^3$.  The search is based on a transformation of a
-structured four-cube identity into congruence-constrained generalized Pell
-equations $u^2-d v^2=M$.  For each candidate representation,
-correctness is checked by exact integer arithmetic, and the associated code
-and data are made publicly available.  We emphasize the computation as a
-certificate-based verification: the final checking pass is independent of
-the Pell search and verifies only coverage and the four-cube identities.
-We also give a local-admissibility heuristic, based on the congruence
-obstructions forced by primes dividing $d$ and on conditional
-Bernays-type density, which explains the observed scale of the search
-parameter.  The same method also finds representations for large integers,
-such as $n=9\cdot 2^{128}+5$, within seconds.
+structured four-cube identity into generalized Pell equations
+$u^2-d v^2=M$.  We also give a heuristic model, based on the square tests
+forced by primes dividing $d$ and on conditional Bernays-type density, which
+explains the observed scale of the search parameter.  The same method also
+quickly finds representations for large integers, such as
+$n=9\cdot 2^{128}+5$, within seconds.
 \end{abstract}
 
 \maketitle
@@ -110,10 +105,7 @@ x_1^3 + x_2^3 + x_3^3 + x_4^3 = n.
 \label{eq:main_problem}
 \end{equation}
 Unlike Waring's problem for cubes, the variables in
-\eqref{eq:main_problem} are allowed to be negative.  This changes the
-character of the problem: congruence obstructions are weaker, but finding
-explicit representations in the difficult residue classes remains a
-computational and arithmetic challenge.
+\eqref{eq:main_problem} are allowed to be negative.
 
 \subsection{Related work}
 \label{subsec:related_work}
@@ -130,9 +122,9 @@ permitted.
 The sum of three cubes problem asks for integers $x,y,z$ such that
 $x^3+y^3+z^3=n$.  Its congruence obstruction modulo $9$ leaves only the
 classes $n\not\equiv \pm 4\pmod 9$ as possible, and even within those
-classes the search can be very hard.  Recent large-scale computations
-resolved notable cases such as $33$ and $42$~\cite{Booker2019,
-BookerSutherland2021}.
+classes the search can be very hard.  Booker resolved the notable case
+$33$~\cite{Booker2019}, and Booker and Sutherland resolved
+$42$~\cite{BookerSutherland2021}.
 
 \subsubsection{Sum of five cubes}
 The sum of five cubes problem is much easier.  The identity
@@ -144,8 +136,7 @@ shows that any multiple of $6$ is a sum of four integer cubes.  Since
 $r^3\bmod 6$ covers all residue classes, one additional cube is enough to
 represent any integer.
 
-\subsection{Known results and contribution}
-\label{subsec:known_results}
+\subsubsection{Sum of four cubes}
 
 In 1966, Demjanenko~\cite{Demjanenko1966} proved that every integer
 $n\not\equiv 4,5\pmod 9$ is a sum of four integer cubes.  The remaining
@@ -153,16 +144,19 @@ classes $n\equiv \pm 4\pmod 9$ are the natural target for computation.
 Demjanenko's identities are constructive, but in some cases they produce
 large representations.
 
+\subsection{Our contribution}
+\label{subsec:our_contribution}
+
 The present paper gives a direct computational verification for the full
 range $1\leq n\leq 10^9$, including the classes $n\equiv\pm4\pmod 9$.
 We do not claim that transforming four-cube identities into Pell-type
 equations is new in itself; related substitutions are part of the
 computational folklore around sums of cubes.  The contribution here is
 instead threefold.  First, we isolate a simple one-parameter family with
-explicit integrality, parity, and local congruence constraints.  Second, we
-use this family to produce certificates for every $1\leq n\leq 10^9$.
-Third, we provide an independently checkable verification protocol and an
-empirical local-admissibility model for the observed search behavior.
+explicit integrality and parity conditions.  Second, we use this family to
+produce certificates for every $1\leq n\leq 10^9$.  Third, we provide an
+independently checkable verification protocol and a heuristic model for the
+observed search behavior.
 
 \section{Preliminaries}
 \label{sec:preliminaries}
@@ -196,27 +190,18 @@ For any integer $n$ satisfying $n \not\equiv 4,5 \pmod{9}$, there exist integers
 \subsection{Verified range}
 \label{subsec:verified_range}
 
-\begin{theorem}[Computational verification]
-\label{thm:verification}
-For every integer $n$ with $1\leq n\leq 10^9$, the computation described
-in Section~\ref{sec:experimental} produced integers
-$x_1,x_2,x_3,x_4$ satisfying
+The computation described in Section~\ref{sec:experimental} produced, for
+every integer $n$ with $1\leq n\leq 10^9$, an explicit representation
 \[
         x_1^3+x_2^3+x_3^3+x_4^3=n.
 \]
-\end{theorem}
-
-\begin{proof}
-This is a computational proof.  Each recorded quadruple was verified by
-exact integer arithmetic; the public data set records the representations,
-and the verification protocol is described in
-Section~\ref{subsec:verification_protocol}.
-\end{proof}
+Each recorded quadruple was checked using exact integer arithmetic, and the
+verification protocol is described in Section~\ref{subsec:verification_protocol}.
 
 \subsection{Transformation to Pell equation}
 \label{subsec:transformation}
 
-\begin{theorem}[Pell transformation with congruence constraints]
+\begin{theorem}[Pell transformation with parity conditions]
 \label{thm:transformation}
 Let $n\in\mathbb Z$ and let $d$ be a positive integer.  Put
 \[
@@ -273,7 +258,7 @@ Multiplying both sides by 4 and completing the squares:
 Thus any integer pair $(x,y)$ gives a solution of
 \eqref{eq:pell_form} with $u$ odd and $v\equiv d\pmod2$.
 Conversely, if $(u,v)$ satisfies \eqref{eq:pell_form} and these two
-congruences, then
+parity conditions, then
 \[
         x=\frac{u-1}{2},\qquad y=\frac{v-d}{2}
 \]
@@ -351,10 +336,10 @@ $X_1^3+X_2^3+X_3^3+X_4^3=n$, or $\emptyset$ if no solution found
 \end{algorithmic}
 \end{algorithm}
 
-The congruence-constrained Pell step in Algorithm~\ref{alg:main} means that
-we do not rely on a single arbitrary solution returned by a generalized Pell
-solver.  The reference implementation enumerates all representatives returned
-by the underlying quadratic-form solver, keeps those satisfying
+The Pell step in Algorithm~\ref{alg:main} means that we do not rely on a
+single arbitrary solution returned by a generalized Pell solver.  The
+reference implementation enumerates all representatives returned by the
+underlying quadratic-form solver, keeps those satisfying
 $u\equiv1\pmod2$ and $v\equiv d\pmod2$, converts them to four-cube
 quadruples, and chooses the one with minimal height
 $H=\max_i|X_i|$.  The independent verification pass described in
@@ -386,82 +371,81 @@ $m=(4n-a^3-b^3)/3$.  Positive-definite choices of $a$ and $b$ can produce
 small representations in special cases, but they do not lead to Pell-type
 unit orbits.  We use the mixed-sign family $a=1$, $b=-d$ because it
 produces the indefinite norm equation $u^2-d v^2=M_{n,d}$, for
-which generalized Pell solvers and congruence filtering are available.
+which generalized Pell solvers are available.
 
-\section{Local-admissibility heuristic}
-\label{sec:theoretical_analysis}
+\section{Heuristic for the search parameter}
+\label{sec:heuristic}
 
-\subsection{Local admissibility}
-\label{subsec:local_admissibility}
+\subsection{Square tests for candidate parameters}
+\label{subsec:square_tests}
 
-The values $M_{n,d}=(4n-1+d^3)/3$ are not random integers
-independent of $d$.  In particular, Lemma~\ref{lem:local_obstruction}
-shows that a prime dividing $d$ can force the success probability for
-that $d$ to be zero.  We therefore separate the local restrictions from
-the global representation question.
+The values $M_{n,d}=(4n-1+d^3)/3$ are not random integers independent of
+$d$.  In particular, Lemma~\ref{lem:local_obstruction} shows that a prime
+dividing $d$ can force the success probability for that $d$ to be zero.  We
+therefore separate these necessary square tests from the global
+representation question.
 
-For fixed $n$, define $A_n(d)=1$ if the following conditions hold:
+For fixed $n$, define $S_n(d)=1$ if the following conditions hold:
 \[
         d>0,\qquad d\ \text{is nonsquare},\qquad
         d\equiv 1-n\pmod6,
 \]
-and, for every prime power $p^\alpha\Vert d$, the integer
-$M_{n,d}$ is a square modulo $p^\alpha$.  Otherwise set
-$A_n(d)=0$.  Only the values with $A_n(d)=1$ are locally
-admissible candidates for the Pell search.
+and, for every prime power $p^\alpha\Vert d$, the integer $M_{n,d}$ is a
+square modulo $p^\alpha$.  Otherwise set $S_n(d)=0$.  Only the values with
+$S_n(d)=1$ pass the square tests used before the Pell search.
 
-For odd primes $p\neq3$ with $p\nmid 4n-1$, the local condition at a prime
+For odd primes $p\neq3$ with $p\nmid 4n-1$, the square test at a prime
 factor $p$ of $d$ is controlled by the quadratic character
 \[
         \chi_n(p)=
         \left(\frac{(4n-1)\cdot 3^{-1}}{p}\right).
 \]
-Thus a prime $p$ with $\chi_n(p)=-1$ cannot divide a locally admissible
-$d$.  For typical $n$, and away from the finitely many primes dividing
-$6(4n-1)$, these characters are modeled as taking the values $\pm1$ with
-roughly equal frequency.
+Thus a prime $p$ with $\chi_n(p)=-1$ cannot divide a parameter $d$ with
+$S_n(d)=1$.  For typical $n$, and away from the finitely many primes
+dividing $6(4n-1)$, these characters are modeled as taking the values
+$\pm1$ with roughly equal frequency.
 
-\subsection{Counting locally admissible parameters}
-\label{subsec:counting_admissible}
+\subsection{Counting viable parameters}
+\label{subsec:counting_viable}
 
-The preceding character model suggests that the prime factors of a locally
-admissible $d$ must lie in a set of primes of natural density about
-$1/2$.  Standard sieve heuristics for integers supported on such a set then
-predict
+The preceding character model suggests that the prime factors of a
+parameter passing the square tests must lie in a set of primes of natural
+density about $1/2$.  Standard sieve heuristics for integers supported on
+such a set then predict
 \[
-        \#\{d\leq t:A_n(d)=1\}
+        \#\{d\leq t:S_n(d)=1\}
         \approx C_n \frac{t}{\sqrt{\log t}},
 \]
-where $C_n$ depends on the exceptional local behavior at small primes and at
+where $C_n$ depends on the exceptional behavior at small primes and at
 primes dividing $4n-1$.  This is the point at which the dependence of
-$M_{n,d}$ on $d$ enters the model: locally impossible values of
-$d$ are removed before any Bernays-type density is invoked.
+$M_{n,d}$ on $d$ enters the model: values of $d$ failing the square tests
+are removed before any Bernays-type density is invoked.
 
 \subsection{Conditional Bernays-type density}
 \label{subsec:conditional_bernays}
 
 Bernays' theorem for indefinite binary quadratic forms~\cite{Bernays1912}
 motivates a global density of order $1/\sqrt{\log X}$ for integers up to
-$X$ represented by a fixed indefinite form, after local restrictions are
-taken into account.  We use this only as a conditional heuristic.  Given
-$A_n(d)=1$, model the probability that
+$X$ represented by a fixed indefinite form, after the necessary square tests
+are taken into account.  We use this only as a conditional heuristic.  Given
+$S_n(d)=1$, model the probability that
 \[
         u^2-d v^2=M_{n,d}
 \]
 has a solution in the required parity class by
 \[
-        \Pr(\text{success at }d\mid A_n(d)=1)
+        \Pr(\text{success at }d\mid S_n(d)=1)
         \approx \frac{K_n(d)}{\sqrt{\log M_{n,d}}},
 \]
-where $K_n(d)$ is treated as a slowly varying factor.  During the
-early part of the search, when $d^3$ is small compared with $n$, we
-have $\log M_{n,d}\asymp\log n$.
+where $K_n(d)$ is treated as a slowly varying factor.  During the early part
+of the search, when $d^3$ is small compared with $n$, we have
+$\log M_{n,d}\asymp\log n$.
 
 The expected number of successful candidates up to $t$ is then modeled by
 \[
         \Lambda_n(t)
         \approx
-        \sum_{\substack{d\leq t\\ A_n(d)=1}}
+        \sum_{\substack{d\leq t\\ S_n(d)=1}}
         \frac{K_n(d)}{\sqrt{\log M_{n,d}}}
         \approx
         \frac{C_nK_n\,t}{\sqrt{\log t}\sqrt{\log n}},
@@ -473,66 +457,25 @@ typically have size
         t \approx \sqrt{\log n\,\log\log n},
 \]
 within these constants.  We do not state this as a theorem; it is a
-local-admissibility stopping-time model, used to interpret the empirical
-distribution in Section~\ref{subsec:distribution}.
+stopping-time model used to interpret the empirical distribution in
+Section~\ref{subsec:distribution}.
 
 \section{Experimental Verification}
 \label{sec:experimental}
 
-\subsection{Verification protocol}
+\subsection{Results and data availability}
+\label{subsec:results}
 \label{subsec:verification_protocol}
 
-For each integer $n$ in the range $1\leq n\leq 10^9$, the program searches
-over positive nonsquare integers $d$ as in Algorithm~\ref{alg:main}.
-If $n\equiv 4\pmod 9$, the program applies the same search to $-n$ and
-then negates the resulting four cubes.  Once a candidate quadruple
-$(x_1,x_2,x_3,x_4)$ is found, it is not accepted until the equality
-\[
-        x_1^3+x_2^3+x_3^3+x_4^3=n
-\]
-has been checked using exact integer arithmetic.
-
-At the level needed for independent verification, a public certificate row
-records $n$ and the four integers $x_1,x_2,x_3,x_4$.  The search parameter
-$d$ used in the tables is recoverable from the generated family as
-$d=|x_3+x_4|$, but the final checker does not rely on this value.  The
-checker verifies that the records cover the interval without gaps or
-repetitions and that each recorded quadruple satisfies the defining equation.
-No floating-point arithmetic and no Pell solver are used in this final check.
-
-\subsection{Certificate and independent checking}
-\label{subsec:certificate}
-
-The computational proof is organized so that the expensive search and the
-final verification are logically separated.  The generator may use
-generalized Pell solvers, congruence filters, and implementation-specific
-optimizations.  The checker treats the output as a list of certificates and
-performs only elementary integer tests:
-\[
-        1\leq n\leq 10^9,\qquad
-        x_1^3+x_2^3+x_3^3+x_4^3=n.
-\]
-It also checks that the values of $n$ occur exactly once.  Thus a failure
-or incompleteness in the Pell search would be detected by the independent
-checking pass, and the correctness of the final certificate does not depend
-on the heuristic model of Section~\ref{sec:theoretical_analysis}.
-
-\subsection{Results}
-\label{subsec:results}
-
-Using this protocol, we generated a public certificate data set for every
-integer $0\leq n\leq 10^9$, stored in $100$ shards.  The first $99$ shards
-have length $10^7$, and the final shard contains
-$990000000\leq n\leq 10^9$.  Restricting to $1\leq n\leq 10^9$ gives
-Theorem~\ref{thm:verification}.  Solutions for negative integers $-n$ are
-obtained by taking the negatives of the four entries.  Some small examples
-are listed in Table~\ref{tab:solutions}.
-
-\subsection{Data availability}
+For each integer $n$, the program searches over positive nonsquare integers
+$d$ as in Algorithm~\ref{alg:main}; if $n\equiv 4\pmod 9$, it applies the
+same search to $-n$ and negates the resulting four cubes.  We generated a
+public certificate data set for every integer $0\leq n\leq 10^9$, with each
+row checked by exact integer arithmetic.  Solutions for negative integers
+$-n$ are obtained by taking the negatives of the four entries, and some small
+examples are listed in Table~\ref{tab:solutions}.
 The associated code and data are publicly available on Hugging Face at
-\url{https://huggingface.co/datasets/}\texttt{kzoacn/sum4cubes}.  The files
-\texttt{cubes-00.txt},\ldots,\texttt{cubes-99.txt} cover
-$0\leq n\leq 10^9$.
+\url{https://huggingface.co/datasets/}\texttt{kzoacn/sum4cubes}.
 
 \subsection{Distribution analysis}
 \label{subsec:distribution}
@@ -601,8 +544,8 @@ while Demjanenko's method~\cite{Demjanenko1966,Alpertron2020} would classify it 
 We thank the anonymous reviewers for their careful reading and constructive
 suggestions.  In particular, we are grateful for the observation that a single
 generalized Pell equation may have both parity-compatible and
-parity-incompatible solutions, which led us to state the congruence constraints
-explicitly and to use a congruence-aware Pell search in the final
+parity-incompatible solutions, which led us to state the parity conditions
+explicitly and to enumerate the relevant Pell representatives in the final
 implementation.
 
 \bibliographystyle{amsplain}
@@ -615,7 +558,7 @@ implementation.
 The following executable SageMath code records a reference implementation of
 the search logic.  It was tested with SageMath 10.7.  The production
 implementation uses the same certificate format, while the independent checker
-described in Section~\ref{subsec:certificate} verifies only the resulting
+described in Section~\ref{subsec:verification_protocol} verifies only the resulting
 four-cube identities.  The same code is included in the source tree as
 \texttt{scripts/four\_cubes\_reference.py}.
 
@@ -623,9 +566,9 @@ four-cube identities.  The same code is included in the source tree as
 from sage.all import ZZ, BinaryQF, Mod, factor, is_square
 
 
-def local_admissible(n, d, M):
+def passes_local_tests(n, d, M):
     """
-    Necessary local tests from Lemma 3.3.
+    Necessary square tests used in the search.
     For each p^a || d, M must be a square modulo p^a.
     """
     for p, a in factor(d):
@@ -635,12 +578,12 @@ def local_admissible(n, d, M):
     return True
 
 
-def solve_pell_with_congruences(d, M):
+def solve_pell_with_parity(d, M):
     """
     Yield solutions of
         u^2 - d*v^2 = M,
         u = 1 (mod 2), v = d (mod 2),
-    returned by Sage in this congruence class.
+    returned by Sage with these parity conditions.
     """
     Q = BinaryQF([1, 0, -d])
     for u, v in Q.solve_integer(M, _flag=3):
@@ -661,8 +604,7 @@ def height(xs):
 
 def solve(n, LIMIT=10**8, return_d=False):
     """
-    Solve x1^3 + x2^3 + x3^3 + x4^3 = n by the
-    congruence-filtered Pell family.
+    Solve x1^3 + x2^3 + x3^3 + x4^3 = n by the Pell family.
     """
     n = ZZ(n)
     if n % 9 == 4:
@@ -687,12 +629,12 @@ def solve(n, LIMIT=10**8, return_d=False):
             continue
         M = numerator // 3
 
-        if not local_admissible(n, d, M):
+        if not passes_local_tests(n, d, M):
             continue
 
         candidates = [
             quadruple_from_pell(d, u, v)
-            for u, v in solve_pell_with_congruences(d, M)
+            for u, v in solve_pell_with_parity(d, M)
         ]
         if not candidates:
             continue
